@@ -74,6 +74,8 @@
                         <th>Key</th>
                         <th>Default value</th>
                         <th>Comment</th>
+                        <th>Grid Field</th>
+                        <th>Form Field</th>
                         <th>Action</th>
                     </tr>
 
@@ -101,6 +103,8 @@
                                 </td>
                                 <td><input type="text" class="form-control" placeholder="default value" name="fields[{{$index}}][default]" value="{{$field['default']}}"/></td>
                                 <td><input type="text" class="form-control" placeholder="comment" name="fields[{{$index}}][comment]" value="{{$field['comment']}}" /></td>
+                                <td><input type="checkbox" name="fields[{{$index}}][grid]" {{ array_get($field, 'grid') == 'on' ? 'checked': '' }}/></td>
+                                <td><input type="checkbox" name="fields[{{$index}}][form]" {{ array_get($field, 'form') == 'on' ? 'checked': '' }}/></td>
                                 <td><a class="btn btn-sm btn-danger table-field-remove"><i class="fa fa-trash"></i> remove</a></td>
                             </tr>
                         @endforeach
@@ -127,6 +131,8 @@
                         </td>
                         <td><input type="text" class="form-control" placeholder="default value" name="fields[0][default]"></td>
                         <td><input type="text" class="form-control" placeholder="comment" name="fields[0][comment]"></td>
+                        <td><input type="checkbox" name="fields[0][grid]"></td>
+                        <td><input type="checkbox" name="fields[0][form]"></td>
                         <td><a class="btn btn-sm btn-danger table-field-remove"><i class="fa fa-trash"></i> remove</a></td>
                     </tr>
                     @endif
@@ -227,6 +233,8 @@
         </td>
         <td><input type="text" class="form-control" placeholder="default value" name="fields[__index__][default]"></td>
         <td><input type="text" class="form-control" placeholder="comment" name="fields[__index__][comment]"></td>
+        <td><input type="checkbox" name="fields[__index__][grid]" /></td>
+        <td><input type="checkbox" name="fields[__index__][form]" /></td>
         <td><a class="btn btn-sm btn-danger table-field-remove"><i class="fa fa-trash"></i> remove</a></td>
     </tr>
 </template>

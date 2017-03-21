@@ -75,6 +75,7 @@ class DummyClass extends Controller
 
             $grid->id('ID')->sortable();
 
+            /*grid here*/
             $grid->created_at();
             $grid->updated_at();
         });
@@ -91,6 +92,7 @@ class DummyClass extends Controller
 
             $form->display('id', 'ID');
 
+            /*form here*/
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
         });

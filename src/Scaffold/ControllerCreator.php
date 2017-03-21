@@ -36,11 +36,13 @@ class ControllerCreator
      *
      * @param string $model
      *
+     * @param array $fields
+     *
      * @throws \Exception
      *
      * @return string
      */
-    public function create($model)
+    public function create($model,$fields)
     {
         $path = $this->getpath($this->name);
 
@@ -50,9 +52,64 @@ class ControllerCreator
 
         $stub = $this->files->get($this->getStub());
 
+        $stub = $this->replaceGridAndForm($stub,$fields);
+
         $this->files->put($path, $this->replace($stub, $this->name, $model));
 
         return $path;
+    }
+
+    /** build grid fields
+     * @param $fields
+     * @return string
+     */
+    protected function buildGrid($fields)
+    {
+        $fields = $this->getFields($fields);
+
+        $column = '';
+
+        foreach ($fields as $field) {
+            if (array_get($field, 'grid') == 'on') {
+                $column .= "\$grid->{$field['name']}(";
+
+                if (isset($field['comment']) && $field['comment']) {
+                    $column .= "'{$field['comment']}'";
+                }
+
+                $column .=");\n";
+            }
+        }
+        return $column;
+    }
+
+    /** build form fields
+     * @param $fields
+     * @return string
+     */
+    protected function buildForm($fields)
+    {
+        $fields = $this->getFields($fields);
+        $column = '';
+
+        foreach ($fields as $field) {
+            if (array_get($field, 'form') == 'on') {
+                $column .= "\$form->text('{$field['name']}','{$field['comment']}');\n";
+            }
+        }
+        return $column;
+    }
+
+    /** get validated fields
+     * @param $fields
+     * @return array
+     */
+    protected function getFields($fields)
+    {
+        $fields = array_filter($fields, function ($field) {
+            return isset($field['name']) && !empty($field['name']);
+        });
+        return $fields;
     }
 
     /**
